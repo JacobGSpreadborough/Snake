@@ -1,48 +1,54 @@
 public class Snake {
-    int length;
-    int[][] body = new int[2][GridOfSquares.rows*GridOfSquares.rows];
+    public int score;
+    public SnakeCell head;
+    public SnakeCell tail;
 
     public Snake() {
         // default length and starting position
-        length = 2;
-        body[0][0] = GridOfSquares.rows/2;
-        body[1][0] = GridOfSquares.rows/2;
-        body[0][1] = GridOfSquares.rows/2;
-        body[1][1] = (GridOfSquares.rows/2) + 1;
+        score = 0;
+        head = new SnakeCell(GridOfSquares.rows / 2, GridOfSquares.rows / 2);
+        tail = new SnakeCell(GridOfSquares.rows / 2, (GridOfSquares.rows / 2 + 1));
+        head.next = tail;
+        tail.next = null;
     }
 
     public void updateBody(int newX, int newY, boolean ateFood) {
-        // adds another cell if food was eaten, if not the last cell gets overridden and disappears
-        length += (ateFood) ? 1:0;
-        // iterate through the list backwards and shift all the values
-        // would it be better to fill the array from the end and iterate backwards when drawing the snake
-        for (int i = length; i > 0; i--) {
-            body[0][i] = body[0][i-1];
-            body[1][i] = body[1][i-1];
+        // create new cell
+        SnakeCell newCell = new SnakeCell(newX, newY);
+        // replace head
+        newCell.next = head;
+        head = newCell;
+        // increase length if food was eaten
+        if (ateFood) {
+            score++;
         }
-        // set last item to 0
-        body[0][0] = newX;
-        body[1][0] = newY;
+        else{
+            SnakeCell temp = head;
+            while (temp.next.next != null) {
+                temp = temp.next;
+            }
+            temp.next = null;
+        }
     }
-
 
     public boolean checkCollision(int x, int y) {
         // check against body
-        for (int i = 1; i < length; i++) {
-            if(body[0][x] == body[0][i]
-                    && body[1][y] == body[1][i]) {
+        SnakeCell temp = head.next;
+        while (temp != null) {
+            if (temp.xPosition == x && temp.yposition == y) {
                 return true;
             }
+            temp = temp.next;
         }
         return false;
     }
 
     public boolean checkWalls() {
         // check against walls
-        return (body[0][0] > GridOfSquares.rows - 1)
-                || (body[1][0] > GridOfSquares.rows - 1)
-                || (body[0][0] < 0)
-                || (body[1][0] < 0);
+        return (head.xPosition > GridOfSquares.rows - 1)
+                || (head.yposition > GridOfSquares.rows - 1)
+                || (head.xPosition < 0)
+                || (head.yposition < 0);
     }
 
 }

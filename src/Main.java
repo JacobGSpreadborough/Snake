@@ -9,7 +9,7 @@ public class Main {
 
         while (true) {
 
-            if (game.snake.length == GridOfSquares.rows * GridOfSquares.rows) {
+            if (game.snake.score == GridOfSquares.rows * GridOfSquares.rows) {
                 System.out.println("You Win!");
                 break;
             }
@@ -17,17 +17,17 @@ public class Main {
             SnakeGame.move(SnakeGame.keyInput);
 
             game.snake.updateBody(SnakeGame.headX, SnakeGame.headY, SnakeGame.checkFood());
-            if (game.snake.checkCollision(0, 0) || game.snake.checkWalls()) {
+            if (game.snake.checkCollision(SnakeGame.headX, SnakeGame.headY) || game.snake.checkWalls()) {
                 // high score doesn't work
                 System.out.println("You Lost!");
-                System.out.println("Score: " + (game.snake.length - 2));
+                System.out.println("Score: " + game.snake.score);
                 break;
             }
             game.render();
 
             if (SnakeGame.checkFood()) {
                 game.newFood();
-                String title = "Score: " + (game.snake.length - 2);
+                String title = "Score: " + game.snake.score;
                 game.frame.setTitle(title);
             }
 

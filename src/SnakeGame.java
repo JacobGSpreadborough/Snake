@@ -14,7 +14,6 @@ public class SnakeGame {
     static int headY = GridOfSquares.rows / 2;
     static char keyInput = 'w';
     static char lastValidInput = 'w';
-    static int highScore = 0;
     Snake snake;
     JFrame frame;
     GridPanel panel;
@@ -26,7 +25,7 @@ public class SnakeGame {
         panel = new GridPanel();
         // set up the window
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 450);
+        frame.setSize(600, 600);
         frame.add(panel);
         frame.addKeyListener(new KeyAdapter() {
             @Override
@@ -38,10 +37,11 @@ public class SnakeGame {
     }
 
     public void drawSnake() {
-        // erase last square if food wasn't eaten
         // TODO stop food from spawning inside snake
-        for (int i = 0; i < snake.length; i++) {
-            panel.setTargetSquare(snake.body[0][i], snake.body[1][i], Color.green);
+        SnakeCell temp = snake.head;
+        while (temp != null) {
+            panel.setTargetSquare(temp.xPosition, temp.yposition, Color.green);
+            temp = temp.next;
         }
     }
 
@@ -62,7 +62,7 @@ public class SnakeGame {
     public void newFood() {
         foodX = (int) (Math.random() * GridOfSquares.rows - 1);
         foodY = (int) (Math.random() * GridOfSquares.rows - 1);
-        while(snake.checkCollision(foodX, foodY)) {
+        while (snake.checkCollision(foodX, foodY)) {
             System.out.println("FOOD COLLISION");
             newFood();
         }
