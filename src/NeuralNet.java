@@ -27,12 +27,12 @@ public class NeuralNet {
         }
 
     }
-    
-    // TODO rename this
-    public static void addCellToInputs(double[] inputs, SnakeCell cell, double state) {
-    	int index = cell.xPosition + (cell.yposition * GridOfSquares.rows);
-    	// 1 for occupied, 0 for unoccupied
-    	inputs[index] = state;
+
+    public static void updateInputs(double[] inputs, int xPosition, int yPosition, double state) {
+        int index = xPosition + (yPosition * GridOfSquares.rows);
+        // 1 for occupied, 0 for unoccupied
+        inputs[index] = state;
+        System.out.println(index);
     }
 
     public double[] calculateOutputs(double[] inputs) {
@@ -57,30 +57,17 @@ public class NeuralNet {
         double[] expectedOutput = new double[10];
 
         // put MNIST key into array of zeros
-        for(int i=0; i<10;i++){
-            if(i != key) {
+        for (int i = 0; i < 10; i++) {
+            if (i != key) {
                 expectedOutput[i] = 0;
-            }
-            else{
+            } else {
                 expectedOutput[i] = key;
             }
         }
-        double totalCost=0;
+        double totalCost = 0;
         for (int i = 0; i < input.length; i++) {
             totalCost += nodeCost(input[i], expectedOutput[i]);
         }
-        return totalCost/input.length;
+        return totalCost / input.length;
     }
-
-
-
-    public static void main(String[] args) {
-        int[] layerSizes = { 2, 3, 2 };
-        NeuralNet perceptron = new NeuralNet(layerSizes);
-        double[] inputs = { 1, 2 };
-        double[] outputs = perceptron.calculateOutputs(inputs);
-
-        System.out.println(outputs[0]);
-    }
-
 }

@@ -2,8 +2,9 @@ public class Snake {
     public int score;
     public SnakeCell head;
     public SnakeCell tail;
-    public final double ALIVE = 1.0;
-    public final double DEAD = 0.0;
+    public static final double ALIVE = -1.0;
+    public static final double DEAD = 0.0;
+    public static final double FOOD = 1.0;
 
     public Snake() {
         // default length and starting position
@@ -17,22 +18,23 @@ public class Snake {
     public void updateBody(int newX, int newY, boolean ateFood) {
         // create new cell
         SnakeCell newCell = new SnakeCell(newX, newY);
-        // set corresponding input to 'alive'
-        NeuralNet.addCellToInputs(Main.inputs, newCell, ALIVE);
         // replace head
         newCell.next = head;
         head = newCell;
+        // set corresponding input to 'alive'
+        NeuralNet.updateInputs(Main.inputs, head.xPosition, head.yPosition, ALIVE);
         // increase length if food was eaten
         if (ateFood) {
             score++;
-        }
-        else{
+        } else {
+            // remove tail cell if food wasn't eaten
             SnakeCell temp = head;
             while (temp.next.next != null) {
                 temp = temp.next;
             }
             temp.next = null;
-            NeuralNet.addCellToInputs(Main.inputs, temp, DEAD);
+            //remove cell from inputs if no food was eaten
+            NeuralNet.updateInputs(Main.inputs, temp.xPosition, temp.yPosition, DEAD);
         }
     }
 
@@ -40,7 +42,7 @@ public class Snake {
         // check against body
         SnakeCell temp = head.next;
         while (temp != null) {
-            if (temp.xPosition == x && temp.yposition == y) {
+            if (temp.xPosition == x && temp.yPosition == y) {
                 return true;
             }
             temp = temp.next;
@@ -51,9 +53,9 @@ public class Snake {
     public boolean checkWalls() {
         // check against walls
         return (head.xPosition > GridOfSquares.rows - 1)
-                || (head.yposition > GridOfSquares.rows - 1)
+                || (head.yPosition > GridOfSquares.rows - 1)
                 || (head.xPosition < 0)
-                || (head.yposition < 0);
+                || (head.yPosition < 0);
     }
 
 }

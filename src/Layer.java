@@ -38,11 +38,4 @@ public class Layer {
         return output;
     }
 
-    public static void main(String[] args) {
-        Layer testLayer = new Layer(2,3);
-        double[] inputs = {1,2};
-        double[] outputs = testLayer.calculateOutput(inputs);
-        System.out.println(outputs[2]);
-
-    }
 }

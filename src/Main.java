@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Main {
 
 	public static char[] movements = { 'w', 'a', 's', 'd' };
@@ -9,6 +11,7 @@ public class Main {
 		// hidden layer is 16 because it's a nice number
 		// 4 outputs are WASD
 		int[] layerSizes = { GridOfSquares.area, 16, 4 };
+
 		inputs = new double[GridOfSquares.area];
 		NeuralNet snakeAI = new NeuralNet(layerSizes);
 		SnakeGame game = new SnakeGame();
@@ -25,7 +28,9 @@ public class Main {
 			}
 
 			SnakeGame.keyInput = movements[snakeAI.Classify(inputs)];
+
 			System.out.println(SnakeGame.keyInput);
+			System.out.println(Arrays.toString(inputs));
 
 			SnakeGame.move(SnakeGame.keyInput);
 

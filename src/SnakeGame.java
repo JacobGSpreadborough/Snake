@@ -41,7 +41,7 @@ public class SnakeGame {
         // TODO stop food from spawning inside snake
         SnakeCell temp = snake.head;
         while (temp != null) {
-            panel.setTargetSquare(temp.xPosition, temp.yposition, Color.green);
+            panel.setTargetSquare(temp.xPosition, temp.yPosition, Color.green);
             temp = temp.next;
         }
     }
@@ -49,6 +49,7 @@ public class SnakeGame {
     // TODO stop food from spawning inside snake
     public void drawFood() {
         panel.setTargetSquare(foodX, foodY, Color.RED);
+        NeuralNet.updateInputs(Main.inputs, foodX, foodY, Snake.FOOD);
     }
 
     public void render() {
