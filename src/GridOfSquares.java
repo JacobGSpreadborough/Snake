@@ -3,7 +3,7 @@ import javax.swing.JPanel;
 
 public class GridOfSquares {
 
-    public final static int rows = 16;
+    public final static int rows = 8;
 
 }
 
