@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 public class GridOfSquares {
 
     public final static int rows = 8;
+    public final static int area = rows*rows;
 
 }
 
@@ -12,7 +13,7 @@ class GridPanel extends JPanel {
     // array to store the color of the squares we'll render later
     Color[][] colors = new Color[GridOfSquares.rows][GridOfSquares.rows];
 
-    // initialize the grid to all black
+    // initialise the grid to all black
     public GridPanel() {
         for (int i = 0; i < GridOfSquares.rows; i++) {
             for (int j = 0; j < GridOfSquares.rows; j++) {

@@ -2,6 +2,8 @@ public class Snake {
     public int score;
     public SnakeCell head;
     public SnakeCell tail;
+    public final double ALIVE = 1.0;
+    public final double DEAD = 0.0;
 
     public Snake() {
         // default length and starting position
@@ -15,6 +17,8 @@ public class Snake {
     public void updateBody(int newX, int newY, boolean ateFood) {
         // create new cell
         SnakeCell newCell = new SnakeCell(newX, newY);
+        // set corresponding input to 'alive'
+        NeuralNet.addCellToInputs(Main.inputs, newCell, ALIVE);
         // replace head
         newCell.next = head;
         head = newCell;
@@ -28,6 +32,7 @@ public class Snake {
                 temp = temp.next;
             }
             temp.next = null;
+            NeuralNet.addCellToInputs(Main.inputs, temp, DEAD);
         }
     }
 

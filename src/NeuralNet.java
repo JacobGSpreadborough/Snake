@@ -2,7 +2,7 @@ public class NeuralNet {
 
     Layer[] layers;
 
-    public int indexOfMax(double[] array) {
+    public static int indexOfMax(double[] array) {
         int maxAt = 0;
         for (int i = 0; i < array.length; i++) {
             if (array[i] > array[maxAt])
@@ -11,7 +11,7 @@ public class NeuralNet {
         return maxAt;
     }
 
-    public double square(double num) {
+    public static double square(double num) {
         return num * num;
     }
 
@@ -26,6 +26,13 @@ public class NeuralNet {
             layers[i] = new Layer(layerSizes[i], layerSizes[i + 1]);
         }
 
+    }
+    
+    // TODO rename this
+    public static void addCellToInputs(double[] inputs, SnakeCell cell, double state) {
+    	int index = cell.xPosition + (cell.yposition * GridOfSquares.rows);
+    	// 1 for occupied, 0 for unoccupied
+    	inputs[index] = state;
     }
 
     public double[] calculateOutputs(double[] inputs) {

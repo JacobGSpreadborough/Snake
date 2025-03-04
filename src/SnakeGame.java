@@ -36,6 +36,7 @@ public class SnakeGame {
         frame.setVisible(true);
     }
 
+
     public void drawSnake() {
         // TODO stop food from spawning inside snake
         SnakeCell temp = snake.head;
